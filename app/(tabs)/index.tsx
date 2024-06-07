@@ -1,9 +1,18 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Link } from 'expo-router';
 
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { FontAwesome5 } from '@expo/vector-icons';
+
+const units = [
+  { name: 'Temperatura', image: "temperature-high", path: '../screens/temperature' },
+  { name: 'Presión', image: "car-brake-low-pressure", path: '../screens/pressure' },
+  { name: 'Área', image: "temperature-high", path: '/area' },
+  { name: 'Volumen', image: "volume-down", path: '/volume' },
+];
 
 export default function HomeScreen() {
   return (
@@ -15,50 +24,45 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+      <ThemedView style={styles.container}>
+        <ThemedText type="title">Welcome to Unit Converter!</ThemedText>
+        {units.map((unit, index) => (
+          <Link key={index} href={unit.path} style={styles.box}>
+            <FontAwesome5 name={unit.image} size={24} color="black" />
+            <ThemedText type="defaultSemiBold" style={styles.text}>{unit.name}</ThemedText>
+          </Link>
+        ))}
       </ThemedView>
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    backgroundColor: '#fff',
+    padding: 16,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  box: {
+    width: 150,
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 10,
+  },
+  image: {
+    width: 50,
+    height: 50,
+    marginBottom: 10,
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   reactLogo: {
     height: 178,
